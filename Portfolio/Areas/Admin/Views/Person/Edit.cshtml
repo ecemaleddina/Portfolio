@@ -1,0 +1,100 @@
+﻿@model Entities.Concrete.TableModels.Person
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+
+<main>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Add Position</h3></div>
+                    <div class="card-body">
+                        <form method="post" action="/admin/Person/Edit">
+                            <div class="form-group d-flex justify-content-between">
+                                <label for="id">ID</label>
+                                <input asp-for="ID" type="text" class="form-control w-50" id="id" readonly />
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="inputFirstName">New Firstname</label>
+                                        <input asp-for="FirstName" type="text" class="form-control w-50" id="personfirstname" placeholder="Enter New Firstname" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="inputLastName">New Lastname</label>
+                                        <input asp-for="LastName" type="text" class="form-control w-50" id="personlastname" placeholder="Enter New Lastname" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="inputBirthDate">New Birthdate</label>
+                                        <input asp-for="BirthDate" type="date" class="form-control w-50" id="PersonBirthDate" placeholder="Enter New Birth Date" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="inputAddress">New Adress</label>
+                                        <input asp-for="Address" type="text" class="form-control w-50" id="personaddress" placeholder="Enter New Adress" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="inputEmail">New Email</label>
+                                        <input asp-for="Email" type="text" class="form-control w-50" id="personemail" placeholder="Enter New Email" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="inputWebsite">New Website</label>
+                                        <input asp-for="WebSite" type="text" class="form-control w-50" id="personwebsite" placeholder="Enter New Website" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="inputDescription">New Description</label>
+                                        <input asp-for="Description" type="text" class="form-control w-50" id="persondescription" placeholder="Enter New Description" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="inputProfilPath">New Profile Path</label>
+                                        <input asp-for="ProfilPath" type="text" class="form-control w-50" id="personprofilpath" placeholder="Enter New Profile Path" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="inputCvPath">New Cv Path</label>
+                                        <input asp-for="CvPath" type="text" class="form-control w-50" id="personcvpath" placeholder="Enter New Cv Path" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="PersonPosition" class="w-100">New Position</label>
+                                        <select asp-for="Position.ID" class="w-50 form-select">
+                                            <option value="">Select position</option>
+                                            @foreach (var position in ViewData["Positions"] as SelectList)
+                                            {
+                                                <option value="@position.Value">@position.Text</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 mb-0">
+                                <button type="submit" class="btn btn-success">Save</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
