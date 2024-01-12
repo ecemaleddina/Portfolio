@@ -22,8 +22,12 @@ namespace Business.Concrete
 
         public IResult Add(Position entity)
         {
-            _positionEFDAL.Add(entity);
-            return new SuccessResult("Position added successfully");
+            if(entity.Name != null)
+            {
+                _positionEFDAL.Add(entity);
+                return new SuccessResult("Position added successfully");
+            }
+            return new ErrorResult("Position name can not be empty");
         }
 
         public IResult Delete(int id)

@@ -804,6 +804,7 @@ footer p a {
 }
 
 
+
 /* ======= Media Query  ======= */
 @media screen and (min-width: 1200px) {
     .container {
@@ -952,3 +953,4 @@ footer p a {
         animation-delay: 1s;
     }
 }
+

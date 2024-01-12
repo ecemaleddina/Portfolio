@@ -1,4 +1,5 @@
-﻿using Entities.Concrete.TableModels;
+﻿using Core.Helpers;
+using Entities.Concrete.TableModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,12 @@ using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
-    public interface IPositionService:IBaseService<Position>
+    public interface IPositionService
     {
+        IResult Add(Position position);
+        IResult Update(Position position);
+        IResult Delete(int id);
+        IDataResult<Position> GetByID(int id);
+        IDataResult<List<Position>> GetAll();
     }
 }

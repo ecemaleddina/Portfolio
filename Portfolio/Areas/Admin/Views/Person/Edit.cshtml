@@ -14,7 +14,7 @@
                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Add Position</h3></div>
                     <div class="card-body">
-                        <form method="post" action="/admin/Person/Edit">
+                        <form method="post" action="/admin/Person/Edit" enctype="multipart/form-data">
                             <div class="form-group d-flex justify-content-between">
                                 <label for="id">ID</label>
                                 <input asp-for="ID" type="text" class="form-control w-50" id="id" readonly />
@@ -64,14 +64,18 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
-                                        <label for="inputProfilPath">New Profile Path</label>
-                                        <input asp-for="ProfilPath" type="text" class="form-control w-50" id="personprofilpath" placeholder="Enter New Profile Path" />
+                                        <label for="PersonProfilPath" class="w-100">New Profile Path</label>
+                                        <div class="col-md-3 form-group">
+                                            <label asp-for="ImageFile" class="control-label"></label>
+                                            <input asp-for="ImageFile" class="custom-file-input" type="file" />
+                                            <span asp-validation-for="ImageFile" class="text-danger"></span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
                                         <label for="inputCvPath">New Cv Path</label>
-                                        <input asp-for="CvPath" type="text" class="form-control w-50" id="personcvpath" placeholder="Enter New Cv Path" />
+                                        <input asp-for="CvPath" type="file" class="form-control w-50" id="personcvpath" placeholder="Enter New Cv Path" />
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -87,10 +91,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-4 mb-0">
+                            <div class="mt-4 mb-0 d-flex justify-content-between">
                                 <button type="submit" class="btn btn-success">Save</button>
+                                <button type="submit" asp-area="Admin" asp-controller="Person" asp-action="Index" class="btn btn-danger">Cancel</button>
                             </div>
                         </form>
+
 
                     </div>
                 </div>

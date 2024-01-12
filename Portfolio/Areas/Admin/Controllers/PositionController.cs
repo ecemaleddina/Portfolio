@@ -31,9 +31,17 @@ namespace Portfolio.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Add(Position position)
         {
-            _positionManager.Add(position);
-
-            return Redirect("Index");
+            var result = _positionManager.Add(position);
+            if (!result.Success)
+            {
+                TempData["AlertMessage"] = result.Message;
+                return Redirect("Add");
+            }
+            else
+            {
+                TempData["AlertMessage"] = result.Message;
+                return Redirect("Index");
+            }
         }
 
         public IActionResult Delete(int id)

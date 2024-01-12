@@ -15,6 +15,8 @@ builder.Services.AddScoped<IPositionDAL, PositionEFDAL>();
 builder.Services.AddScoped<IPositionService, PositionManager>();
 builder.Services.AddScoped<IPersonDAL, PersonEFDAL>();
 builder.Services.AddScoped<IPersonService, PersonManager>();
+builder.Services.AddScoped<ISkillDAL, SkillEFDAL>();
+builder.Services.AddScoped<ISkillService, SkillManager>();
 
 var app = builder.Build();
 

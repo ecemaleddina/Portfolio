@@ -1,6 +1,8 @@
 ﻿using Core.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -21,6 +23,12 @@ namespace Entities.Concrete.TableModels
         public string Description { get; set; }
         public string ProfilPath { get; set; }
         public string CvPath { get; set; }
+        [NotMapped]
+        [DisplayName("Upload File")]
+        public IFormFile ImageFile { get; set; }
+        [NotMapped]
+        [DisplayName("Upload File")]
+        public IFormFile CvFile { get; set; }
         public Position Position { get; set; }
     }
 }

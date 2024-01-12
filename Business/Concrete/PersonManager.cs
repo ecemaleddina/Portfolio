@@ -20,9 +20,11 @@ namespace Business.Concrete
             _personEFDAL = personEFDAL;
         }
 
-        public IResult Add(Person entity)
+        public IResult Add(Person person, string imageFile, string cvFile)
         {
-            _personEFDAL.Add(entity);
+            person.ProfilPath = imageFile;
+            person.CvPath = cvFile;
+            _personEFDAL.Add(person);
             return new SuccessResult("Position added successfully");
         }
 
@@ -30,13 +32,13 @@ namespace Business.Concrete
         {
             var oldEntity = _personEFDAL.Get(x => x.ID == id && x.Deleted == 0);
             oldEntity.Deleted = oldEntity.ID;
-            Update(oldEntity);
+            Update(oldEntity, oldEntity.ProfilPath, oldEntity.CvPath);
             return new SuccessResult("Position deleted successfully");
         }
 
         public IDataResult<List<Person>> GetAll()
         {
-            return new SuccessDataResult<List<Person>>(_personEFDAL.GetAll(x => x.Deleted == 0).ToList());
+            return new SuccessDataResult<List<Person>>(_personEFDAL.GetPersonWithPosition(x => x.Deleted == 0).ToList());
         }
 
         public IDataResult<Person> GetByID(int id)
@@ -44,9 +46,11 @@ namespace Business.Concrete
             return new SuccessDataResult<Person>(_personEFDAL.Get(x => x.ID == id && x.Deleted == 0));
         }
 
-        public IResult Update(Person entity)
+        public IResult Update(Person person, string imageFile, string cvFile)
         {
-            _personEFDAL.Update(entity);
+            person.ProfilPath = imageFile;
+            person.CvPath = cvFile;
+            _personEFDAL.Update(person);
             return new SuccessResult("Position updated successfully");
         }
     }
