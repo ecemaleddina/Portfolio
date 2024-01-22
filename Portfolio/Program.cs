@@ -1,8 +1,10 @@
 using Business.Abstract;
 using Business.Concrete;
+using Business.Validations;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete.TableModels;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +19,18 @@ builder.Services.AddScoped<IPersonDAL, PersonEFDAL>();
 builder.Services.AddScoped<IPersonService, PersonManager>();
 builder.Services.AddScoped<ISkillDAL, SkillEFDAL>();
 builder.Services.AddScoped<ISkillService, SkillManager>();
+builder.Services.AddScoped<IAboutSkillDAL, AboutSkillEFDAL>();
+builder.Services.AddScoped<IAboutSkillService, AboutSkillManager>();
+builder.Services.AddScoped<IWorkCategoryDAL, WorkCategoryEFDAL>();
+builder.Services.AddScoped<IWorkCategoryService, WorkCategoryManager>();
+builder.Services.AddScoped<IExperienceDAL, ExperienceEFDAL>();
+builder.Services.AddScoped<IExperienceService, ExperienceManager>();
+builder.Services.AddScoped<IValidator<Position>, PositionValidator>();
+builder.Services.AddScoped<IValidator<Person>, PersonValidator>();
+builder.Services.AddScoped<IValidator<Skill>, SkillValidator>();
+builder.Services.AddScoped<IValidator<AboutSkill>, AboutSkillValidator>();
+builder.Services.AddScoped<IValidator<WorkCategory>, WorkCategoryValidator>();
+builder.Services.AddScoped<IValidator<Experience>, ExperienceValidator>();
 
 var app = builder.Build();
 

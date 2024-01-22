@@ -1,4 +1,4 @@
-﻿@model Entities.Concrete.TableModels.Person
+﻿@model Person
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -22,72 +22,104 @@
                             <div class="row mb-3">
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
-                                        <label for="inputFirstName">New Firstname</label>
-                                        <input asp-for="FirstName" type="text" class="form-control w-50" id="personfirstname" placeholder="Enter New Firstname" />
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
-                                        <label for="inputLastName">New Lastname</label>
-                                        <input asp-for="LastName" type="text" class="form-control w-50" id="personlastname" placeholder="Enter New Lastname" />
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
-                                        <label for="inputBirthDate">New Birthdate</label>
-                                        <input asp-for="BirthDate" type="date" class="form-control w-50" id="PersonBirthDate" placeholder="Enter New Birth Date" />
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
-                                        <label for="inputAddress">New Adress</label>
-                                        <input asp-for="Address" type="text" class="form-control w-50" id="personaddress" placeholder="Enter New Adress" />
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
-                                        <label for="inputEmail">New Email</label>
-                                        <input asp-for="Email" type="text" class="form-control w-50" id="personemail" placeholder="Enter New Email" />
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
-                                        <label for="inputWebsite">New Website</label>
-                                        <input asp-for="WebSite" type="text" class="form-control w-50" id="personwebsite" placeholder="Enter New Website" />
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
-                                        <label for="inputDescription">New Description</label>
-                                        <input asp-for="Description" type="text" class="form-control w-50" id="persondescription" placeholder="Enter New Description" />
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
-                                        <label for="PersonProfilPath" class="w-100">New Profile Path</label>
-                                        <div class="col-md-3 form-group">
-                                            <label asp-for="ImageFile" class="control-label"></label>
-                                            <input asp-for="ImageFile" class="custom-file-input" type="file" />
-                                            <span asp-validation-for="ImageFile" class="text-danger"></span>
+                                        <label for="PersonFirstname">New Firstname</label>
+                                        <div class="w-50">
+                                            <input asp-for="FirstName" type="text" class="form-control w-100" id="PersonFirstname" placeholder="Enter New Firstname" />
+                                            <span asp-validation-for="FirstName" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
-                                        <label for="inputCvPath">New Cv Path</label>
-                                        <input asp-for="CvPath" type="file" class="form-control w-50" id="personcvpath" placeholder="Enter New Cv Path" />
+                                        <label for="PersonLastname">New Lastname</label>
+                                        <div class="w-50">
+                                            <input asp-for="LastName" type="text" class="form-control w-100" id="PersonLastname" placeholder="Enter New Lastname" />
+                                            <span asp-validation-for="LastName" class="text-danger"></span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
-                                        <label for="PersonPosition" class="w-100">New Position</label>
-                                        <select asp-for="Position.ID" class="w-50 form-select">
-                                            <option value="">Select position</option>
-                                            @foreach (var position in ViewData["Positions"] as SelectList)
-                                            {
-                                                <option value="@position.Value">@position.Text</option>
-                                            }
-                                        </select>
+                                        <label for="PersonBirthDate">New Birthdate</label>
+                                        <div class="w-50">
+                                            <input asp-for="BirthDate" type="date" class="form-control w-100" id="PersonBirthDate" placeholder="Enter New Birthdate" />
+                                            <span asp-validation-for="BirthDate" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="PersonAddress">New Address</label>
+                                        <div class="w-50">
+                                            <input asp-for="Address" type="text" class="form-control w-100" id="PersonAddress" placeholder="Enter New Address" />
+                                            <span asp-validation-for="Address" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="PersonEmail">New Email</label>
+                                        <div class="w-50">
+                                            <input asp-for="Email" type="text" class="form-control w-100" id="PersonEmail" placeholder="Enter New Email" />
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="PersonWebsite">New Website</label>
+                                        <div class="w-50">
+                                            <input asp-for="WebSite" type="text" class="form-control w-100" id="PersonWebsite" placeholder="Enter New Website" />
+                                            <span asp-validation-for="WebSite" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="PersonDescription">New Description</label>
+                                        <div class="w-50">
+                                            <input asp-for="Description" type="text" class="form-control w-100" id="PersonDescription" placeholder="Enter New Description" />
+                                            <span asp-validation-for="Description" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="PersonImageFile">New Profile Image</label>
+                                        <div class="w-50">
+                                            <label asp-for="ImageFile" class="control-label"></label>
+                                            <div class="w-100">
+                                                <input asp-for="ImageFile" class="custom-file-input d-none" type="file" />
+                                                <span asp-validation-for="ProfilPath" class="text-danger d-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="inputCvPath">New Cv</label>
+                                        <div class="w-50">
+                                            <label asp-for="CvFile" class="control-label"></label>
+                                            <div class="w-100">
+                                                <input asp-for="CvFile" class="custom-file-input d-none" type="file" />
+                                                <span asp-validation-for="CvPath" class="text-danger d-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="PersonPosition">New Position</label>
+                                        <div class="w-50">
+                                            <select asp-for="PositionID" class="w-100 form-select" id="PersonPosition">
+                                                <option value="">Select position</option>
+                                                @foreach (var position in ViewData["Positions"] as SelectList)
+                                                {
+                                                    <option value="@position.Value">@position.Text</option>
+                                                }
+                                            </select>
+                                            <span asp-validation-for="PositionID" class="text-danger"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

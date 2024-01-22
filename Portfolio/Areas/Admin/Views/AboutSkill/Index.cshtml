@@ -1,0 +1,54 @@
+﻿@model IEnumerable<AboutSkill>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@if (TempData["AlertMessage"] != null)
+{
+    <script>
+        alert('@TempData["AlertMessage"]');
+    </script>
+}
+
+<style>
+    th, td {
+        text-align: center;
+        vertical-align: middle !important;
+    }
+</style>
+
+
+
+<div class="container p-0">
+    <div class="mt-1">
+        <a href="~/admin/AboutSkill/add" class="btn btn-primary">Add</a>
+    </div>
+    <div class="mt-3 w-100">
+        <table class="table table-bordered table-hover w-100">
+            <thead class="table-info">
+                <tr>
+                    <th>№</th>
+                    <th>Skill</th>
+                    <th>Percentage</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var (index, item) in Model.Select((value, i) => (i + 1, value)))
+                {
+                    <tr>
+                        <td>@index</td>
+                        <td>@item.Skill.Name</td>
+                        <td>@item.Point</td>
+                        <td>@Html.ActionLink("Delete", "Delete", "AboutSkill", new {id = item.ID}, new{ @class="btn btn-danger"})</td>
+                        <td>@Html.ActionLink("Edit", "Edit", "AboutSkill", new {id = item.ID}, new{ @class="btn btn-success"})</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

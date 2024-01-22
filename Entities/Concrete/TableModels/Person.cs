@@ -27,8 +27,9 @@ namespace Entities.Concrete.TableModels
         [DisplayName("Upload File")]
         public IFormFile ImageFile { get; set; }
         [NotMapped]
-        [DisplayName("Upload File")]
+        [DisplayName("Upload CV")]
         public IFormFile CvFile { get; set; }
         public Position Position { get; set; }
+        public int PositionID { get; set; }
     }
 }

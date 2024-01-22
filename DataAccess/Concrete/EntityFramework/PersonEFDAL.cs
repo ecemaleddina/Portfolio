@@ -28,7 +28,7 @@ namespace DataAccess.Concrete.EntityFramework
                   ?
                    _context.Set<Person>().Include(x=>x.Position).ToList()
                   :
-                  _context.Set<Person>().Include(x => x.Position).Where(predicate).ToList(); ;
+                  _context.Set<Person>().Include(x => x.Position).Where(predicate).ToList();
         }
     }
 }

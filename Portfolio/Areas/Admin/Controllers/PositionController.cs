@@ -1,25 +1,29 @@
 ﻿using Business.Abstract;
 using Business.Concrete;
+using Core.Helpers;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete.TableModels;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 
 namespace Portfolio.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class PositionController : Controller
     {
-        private readonly IPositionService _positionManager;
+        private readonly IPositionService _manager;
 
-        public PositionController(IPositionService positionManager)
+        public PositionController(IPositionService manager)
         {
-            _positionManager = positionManager;
+            _manager = manager;
         }
 
         public IActionResult Index()
         {
-            var positions = _positionManager.GetAll().Data;
-            return View(positions);
+            var datas = _manager.GetAll().Data;
+            return View(datas);
         }
 
         [HttpGet]
@@ -29,38 +33,53 @@ namespace Portfolio.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(Position position)
+        public IActionResult Add(Position entity)
         {
-            var result = _positionManager.Add(position);
-            if (!result.Success)
+            var result = _manager.Add(entity);
+            if (result.Success)
             {
-                TempData["AlertMessage"] = result.Message;
-                return Redirect("Add");
+                return RedirectToAction("Index");
             }
             else
             {
-                TempData["AlertMessage"] = result.Message;
-                return Redirect("Index");
+                foreach (var error in result.MessageList)
+                {
+                    ModelState.Remove(result.Data[result.MessageList.IndexOf(error)]);
+                    ModelState.AddModelError(result.Data[result.MessageList.IndexOf(error)], error);
+                }
+                return View(entity);
             }
         }
 
         public IActionResult Delete(int id)
         {
-            _positionManager.Delete(id);
+            _manager.Delete(id);
             return RedirectToAction("Index");
         }
 
         public IActionResult Edit(int id)
         {
-            var position = _positionManager.GetByID(id).Data;
+            var position = _manager.GetByID(id).Data;
             return View(position);
         }
 
         [HttpPost]
-        public IActionResult Edit(Position position)
+        public IActionResult Edit(Position entity)
         {
-            _positionManager.Update(position);
-            return RedirectToAction("Index");
+            var result = _manager.Update(entity);
+            if (result.Success)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                foreach (var error in result.MessageList)
+                {
+                    ModelState.Remove(result.Data[result.MessageList.IndexOf(error)]);
+                    ModelState.AddModelError(result.Data[result.MessageList.IndexOf(error)], error);
+                }
+                return View(entity);
+            }
         }
     }
 }

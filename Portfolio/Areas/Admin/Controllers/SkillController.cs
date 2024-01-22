@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
+using Business.Concrete;
 using Entities.Concrete.TableModels;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Portfolio.Areas.Admin.Controllers
@@ -7,17 +9,17 @@ namespace Portfolio.Areas.Admin.Controllers
     [Area("Admin")]
     public class SkillController : Controller
     {
-        private readonly ISkillService _skillManager;
+        private readonly ISkillService _manager;
 
-        public SkillController(ISkillService skillManager)
+        public SkillController(ISkillService manager)
         {
-            _skillManager = skillManager;
+            _manager = manager;
         }
 
         public IActionResult Index()
         {
-            var skills = _skillManager.GetAll().Data;
-            return View(skills);
+            var datas = _manager.GetAll().Data;
+            return View(datas);
         }
 
         [HttpGet]
@@ -27,30 +29,53 @@ namespace Portfolio.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(Skill skill)
+        public IActionResult Add(Skill entity)
         {
-            _skillManager.Add(skill);
-
-            return Redirect("Index");
+            var result = _manager.Add(entity);
+            if (result.Success)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                foreach (var error in result.MessageList)
+                {
+                    ModelState.Remove(result.Data[result.MessageList.IndexOf(error)]);
+                    ModelState.AddModelError(result.Data[result.MessageList.IndexOf(error)], error);
+                }
+                return View(entity);
+            }
         }
 
         public IActionResult Delete(int id)
         {
-            _skillManager.Delete(id);
+            _manager.Delete(id);
             return RedirectToAction("Index");
         }
 
         public IActionResult Edit(int id)
         {
-            var skill = _skillManager.GetByID(id).Data;
+            var skill = _manager.GetByID(id).Data;
             return View(skill);
         }
 
         [HttpPost]
-        public IActionResult Edit(Skill skill)
+        public IActionResult Edit(Skill entity)
         {
-            _skillManager.Update(skill);
-            return RedirectToAction("Index");
+            var result = _manager.Update(entity);
+            if (result.Success)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                foreach (var error in result.MessageList)
+                {
+                    ModelState.Remove(result.Data[result.MessageList.IndexOf(error)]);
+                    ModelState.AddModelError(result.Data[result.MessageList.IndexOf(error)], error);
+                }
+                return View(entity);
+            }
         }
     }
 }

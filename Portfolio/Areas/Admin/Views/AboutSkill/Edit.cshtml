@@ -1,0 +1,59 @@
+﻿@model AboutSkill
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+
+<main>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Add Position</h3></div>
+                    <div class="card-body">
+                        <form method="post" action="/admin/AboutSkill/Edit">
+                            <div class="form-group d-flex justify-content-between">
+                                <label for="id">ID</label>
+                                <input asp-for="ID" type="text" class="form-control w-50" id="id" readonly />
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="AboutSkillPoint">New Skill Percentage</label>
+                                        <div class="w-50">
+                                            <input asp-for="Point" type="number" min="0" max="100" class="form-control w-100" id="AboutSkillPoint" placeholder="Enter New Percentage" />
+                                            <span asp-validation-for="Point" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="SkillDetailSkill">New Position</label>
+                                        <div class="w-50">
+                                            <select asp-for="SkillId" class="w-100 form-select" id="SkillDetailSkill">
+                                                <option value="">Select position</option>
+                                                @foreach (var skill in ViewData["Skills"] as SelectList)
+                                                {
+                                                    <option value="@skill.Value">@skill.Text</option>
+                                                }
+                                            </select>
+                                            <span asp-validation-for="SkillId" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 mb-0 d-flex justify-content-between">
+                                <button type="submit" class="btn btn-success">Save</button>
+                                <button type="submit" asp-area="Admin" asp-controller="AboutSkill" asp-action="Index" class="btn btn-danger">Cancel</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

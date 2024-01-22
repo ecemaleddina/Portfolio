@@ -1,38 +1,46 @@
 ﻿using Business.Abstract;
+using Business.Validations;
 using Core.Helpers;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete.TableModels;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using Microsoft.AspNetCore;
 
 namespace Business.Concrete
 {
     public class PositionManager : IPositionService
     {
-        private readonly IPositionDAL _positionEFDAL;
+        private readonly IPositionDAL _eFDAL;
+        private readonly IValidator<Position> _validator;
 
-        public PositionManager(IPositionDAL positionEFDAL)
+        public PositionManager(IPositionDAL eFDAL, IValidator<Position> validator)
         {
-            _positionEFDAL = positionEFDAL;
+            _eFDAL = eFDAL;
+            _validator = validator;
         }
 
-        public IResult Add(Position entity)
+        public IDataResult<List<string>> Add(Position entity)
         {
-            if(entity.Name != null)
+            var validationResult = _validator.Validate(entity);
+            if (!validationResult.IsValid)
             {
-                _positionEFDAL.Add(entity);
-                return new SuccessResult("Position added successfully");
+                return new ErrorDataResult<List<string>>(validationResult.Errors.Select(e => e.PropertyName).ToList(), validationResult.Errors.Select(e => e.ErrorMessage).ToList());
             }
-            return new ErrorResult("Position name can not be empty");
+
+            _eFDAL.Add(entity);
+            return new SuccessDataResult<List<string>>(new List<string>(), "Position added successfully");
         }
 
         public IResult Delete(int id)
         {
-            var oldEntity = _positionEFDAL.Get(x => x.ID == id && x.Deleted == 0);
+            var oldEntity = _eFDAL.Get(x => x.ID == id && x.Deleted == 0);
             oldEntity.Deleted = oldEntity.ID;
             Update(oldEntity);
             return new SuccessResult("Position deleted successfully");
@@ -40,18 +48,28 @@ namespace Business.Concrete
 
         public IDataResult<List<Position>> GetAll()
         {
-            return new SuccessDataResult<List<Position>>(_positionEFDAL.GetAll(x=> x.Deleted == 0).ToList());
+            return new SuccessDataResult<List<Position>>(_eFDAL.GetAll(x => x.Deleted == 0).ToList());
         }
 
         public IDataResult<Position> GetByID(int id)
         {
-            return new SuccessDataResult<Position>(_positionEFDAL.Get(x => x.ID == id && x.Deleted == 0));
+            return new SuccessDataResult<Position>(_eFDAL.Get(x => x.ID == id && x.Deleted == 0));
         }
 
-        public IResult Update(Position entity)
+        public IDataResult<List<string>> Update(Position entity)
         {
-            _positionEFDAL.Update(entity);
-            return new SuccessResult("Position updated successfully");
+            if (entity.Deleted == 0)
+            {
+                var validationResult = _validator.Validate(entity);
+                if (!validationResult.IsValid)
+                {
+                    return new ErrorDataResult<List<string>>(validationResult.Errors.Select(e => e.PropertyName).ToList(), validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+                }
+            }
+
+
+            _eFDAL.Update(entity);
+            return new SuccessDataResult<List<string>>(new List<string>(), "Position updated successfully");
         }
     }
 }

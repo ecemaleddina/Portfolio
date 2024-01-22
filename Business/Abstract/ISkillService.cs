@@ -10,8 +10,8 @@ namespace Business.Abstract
 {
     public interface ISkillService
     {
-        IResult Add(Skill skill);
-        IResult Update(Skill skill);
+        IDataResult<List<string>> Add(Skill entity);
+        IDataResult<List<string>> Update(Skill entity);
         IResult Delete(int id);
         IDataResult<Skill> GetByID(int id);
         IDataResult<List<Skill>> GetAll();

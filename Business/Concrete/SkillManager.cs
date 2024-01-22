@@ -1,7 +1,9 @@
 ﻿using Business.Abstract;
 using Core.Helpers;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete.TableModels;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,22 +14,30 @@ namespace Business.Concrete
 {
     public class SkillManager : ISkillService
     {
-        private readonly ISkillDAL _skillEFDAL;
+        private readonly ISkillDAL _eFDAL;
+        private readonly IValidator<Skill> _validator;
 
-        public SkillManager(ISkillDAL skillEFDAL)
+        public SkillManager(ISkillDAL eFDAL, IValidator<Skill> validator)
         {
-            _skillEFDAL = skillEFDAL;
+            _eFDAL = eFDAL;
+            _validator = validator;
         }
 
-        public IResult Add(Skill entity)
+        public IDataResult<List<string>> Add(Skill entity)
         {
-            _skillEFDAL.Add(entity);
-            return new SuccessResult("Skill added successfully");
+            var validationResult = _validator.Validate(entity);
+            if (!validationResult.IsValid)
+            {
+                return new ErrorDataResult<List<string>>(validationResult.Errors.Select(e => e.PropertyName).ToList(), validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+            }
+
+            _eFDAL.Add(entity);
+            return new SuccessDataResult<List<string>>(new List<string>(), "Skill added successfully");
         }
 
         public IResult Delete(int id)
         {
-            var oldEntity = _skillEFDAL.Get(x => x.ID == id && x.Deleted == 0);
+            var oldEntity = _eFDAL.Get(x => x.ID == id && x.Deleted == 0);
             oldEntity.Deleted = oldEntity.ID;
             Update(oldEntity);
             return new SuccessResult("Skill deleted successfully");
@@ -35,18 +45,27 @@ namespace Business.Concrete
 
         public IDataResult<List<Skill>> GetAll()
         {
-            return new SuccessDataResult<List<Skill>>(_skillEFDAL.GetAll(x => x.Deleted == 0).ToList());
+            return new SuccessDataResult<List<Skill>>(_eFDAL.GetAll(x => x.Deleted == 0).ToList());
         }
 
         public IDataResult<Skill> GetByID(int id)
         {
-            return new SuccessDataResult<Skill>(_skillEFDAL.Get(x => x.ID == id && x.Deleted == 0));
+            return new SuccessDataResult<Skill>(_eFDAL.Get(x => x.ID == id && x.Deleted == 0));
         }
 
-        public IResult Update(Skill entity)
+        public IDataResult<List<string>> Update(Skill entity)
         {
-            _skillEFDAL.Update(entity);
-            return new SuccessResult("Skill updated successfully");
+            if (entity.Deleted == 0)
+            {
+                var validationResult = _validator.Validate(entity);
+                if (!validationResult.IsValid)
+                {
+                    return new ErrorDataResult<List<string>>(validationResult.Errors.Select(e => e.PropertyName).ToList(), validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+                }
+            }
+
+            _eFDAL.Update(entity);
+            return new SuccessDataResult<List<string>>(new List<string>(), "Skill updated successfully");
         }
     }
 }

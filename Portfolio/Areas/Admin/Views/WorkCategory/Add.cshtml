@@ -1,0 +1,41 @@
+﻿@model WorkCategory
+
+@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Add</h1>
+
+
+<main>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Add Position</h3></div>
+                    <div class="card-body">
+                        <form method="post" action="/admin/WorkCategory/Add">
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="WorkCategoryName">Work Category Name</label>
+                                        <div class="w-50">
+                                            <input asp-for="Name" type="text" class="form-control w-100" id="WorkCategoryName" placeholder="Enter Work Category" />
+                                            <span asp-validation-for="Name" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 mb-0 d-flex justify-content-between">
+                                <button type="submit" class="btn btn-success">Save</button>
+                                <button type="submit" asp-area="Admin" asp-controller="Skill" asp-action="Index" class="btn btn-danger">Cancel</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

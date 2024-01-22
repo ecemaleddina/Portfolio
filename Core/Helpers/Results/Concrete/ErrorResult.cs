@@ -10,5 +10,9 @@ public class ErrorResult : Result
     {
 
     }
+    public ErrorResult(List<string> messagelist) : base(false, messagelist)
+    {
+
+    }
 }
 

@@ -10,8 +10,8 @@ namespace Business.Abstract
 {
     public interface IPersonService
     {
-        IResult Add(Person person, string imageFile, string cvFile);
-        IResult Update(Person person, string imageFile, string cvFile);
+        IDataResult<List<string>> Add(Person entity, string imageFile, string cvFile);
+        IDataResult<List<string>> Update(Person entity, string imageFile, string cvFile);
         IResult Delete(int id);
         IDataResult<Person> GetByID(int id);
         IDataResult<List<Person>> GetAll();

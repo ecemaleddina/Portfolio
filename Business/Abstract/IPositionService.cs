@@ -10,8 +10,8 @@ namespace Business.Abstract
 {
     public interface IPositionService
     {
-        IResult Add(Position position);
-        IResult Update(Position position);
+        IDataResult<List<string>> Add(Position entity);
+        IDataResult<List<string>> Update(Position entity);
         IResult Delete(int id);
         IDataResult<Position> GetByID(int id);
         IDataResult<List<Position>> GetAll();

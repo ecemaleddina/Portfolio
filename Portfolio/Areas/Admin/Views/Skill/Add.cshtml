@@ -5,7 +5,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Positions</h1>
+<h1>Add</h1>
 
 
 <main>
@@ -19,13 +19,17 @@
                             <div class="row mb-3">
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
-                                        <label for="SkillName" class="w-100">Skill Name</label>
-                                        <input asp-for="Name" type="text" class="form-control w-50" id="SkillName" placeholder="Enter Skill" />
+                                        <label for="SkillName">Skill Name</label>
+                                        <div class="w-50">
+                                            <input asp-for="Name" type="text" class="form-control w-100" id="SkillName" placeholder="Enter Skill" />
+                                            <span asp-validation-for="Name" class="text-danger"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-4 mb-0">
+                            <div class="mt-4 mb-0 d-flex justify-content-between">
                                 <button type="submit" class="btn btn-success">Save</button>
+                                <button type="submit" asp-area="Admin" asp-controller="Skill" asp-action="Index" class="btn btn-danger">Cancel</button>
                             </div>
                         </form>
 

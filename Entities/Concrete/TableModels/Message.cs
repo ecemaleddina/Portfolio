@@ -12,7 +12,6 @@ namespace Entities.Concrete.TableModels
         public string Name { get; set; }
         public string Email { get; set; }
         public string Messages { get; set; }
-        public DateTime InsertDate { get; set; }
-
+        public DateTime InsertDate { get; set; } = DateTime.Now;
     }
 }

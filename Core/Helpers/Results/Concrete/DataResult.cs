@@ -17,6 +17,10 @@ namespace Core.Helpers
         {
             Data=data;
         }
+        public DataResult(T data, bool success, List<string> messageList) : base(success, messageList)
+        {
+            Data = data;
+        }
         public T Data { get; }
 
     }

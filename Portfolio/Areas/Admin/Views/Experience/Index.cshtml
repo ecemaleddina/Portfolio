@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Experience>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@if (TempData["AlertMessage"] != null)
+{
+    <script>
+        alert('@TempData["AlertMessage"]');
+    </script>
+}
+
+<style>
+    th, td {
+        text-align: center;
+        vertical-align: middle !important;
+    }
+</style>
+
+
+
+<div class="container p-0">
+    <div class="mt-1">
+        <a href="~/admin/Experience/add" class="btn btn-primary">Add</a>
+    </div>
+    <div class="mt-3 w-100">
+        <table class="table table-bordered table-hover w-100 centering">
+            <thead class="table-info">
+                <tr>
+                    <th>№</th>
+                    <th><p class="p-0 m-0">Company Name</p></th>
+                    <th><p class="p-0 m-0">Description</p></th>
+                    <th><p class="p-0 m-0">Entry Date</p></th>
+                    <th><p class="p-0 m-0">End Dat</p></th>
+                    <th><p class="p-0 m-0">Position Name</p></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var (index, item) in Model.Select((value, i) => (i + 1, value)))
+                {
+                    <tr>
+                        <td>@index</td>
+                        <td>@item.CompanyName</td>
+                        <td>@item.Description</td>
+                        <td>@item.EntryDate.ToString("dd/MM/yyyy") </td>
+                        <td>
+                            @{
+                                var date = @item.IsContinue
+                                        ? "Till Now" : @item.EndDate?.ToString("dd/MM/yyyy");
+                        }
+                        @date
+                        </td>
+                        <td>@item.Position.Name</td>
+                        <td>@Html.ActionLink("Delete", "Delete", "Experience", new {id = item.ID}, new{ @class="btn btn-danger"})</td>
+                        <td>@Html.ActionLink("Edit", "Edit", "Experience", new {id = item.ID}, new{ @class="btn btn-success"})</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

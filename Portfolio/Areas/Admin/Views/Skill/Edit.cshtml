@@ -1,4 +1,4 @@
-﻿@model Entities.Concrete.TableModels.Skill
+﻿@model Skill
 
 @{
     ViewData["Title"] = "Edit";
@@ -23,8 +23,11 @@
                             <div class="row mb-3">
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
-                                        <label for="inputskillname">New Skill Name</label>
-                                        <input asp-for="Name" type="text" class="form-control w-50" id="inputskillname" placeholder="Enter New Skill" />
+                                        <label for="SkillName">New Skill Name</label>
+                                        <div class="w-50">
+                                            <input asp-for="Name" type="text" class="form-control w-100" id="SkillName" placeholder="Enter New Skill" />
+                                            <span asp-validation-for="Name" class="text-danger"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

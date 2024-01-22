@@ -10,5 +10,6 @@ namespace Core.Helpers
     {
         bool Success { get; }
         string Message { get; }
+        List<string> MessageList { get; }
     }
 }

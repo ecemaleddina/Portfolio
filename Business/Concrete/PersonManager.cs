@@ -1,8 +1,10 @@
 ﻿using Business.Abstract;
+using Business.Validations;
 using Core.Helpers;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete.TableModels;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,45 +15,64 @@ namespace Business.Concrete
 {
     public class PersonManager : IPersonService
     {
-        private readonly IPersonDAL _personEFDAL;
+        private readonly IPersonDAL _eFDAL;
+        private readonly IValidator<Person> _validator;
 
-        public PersonManager(IPersonDAL personEFDAL)
+        public PersonManager(IPersonDAL eFDAL, IValidator<Person> validator)
         {
-            _personEFDAL = personEFDAL;
+            _eFDAL = eFDAL;
+            _validator = validator;
         }
 
-        public IResult Add(Person person, string imageFile, string cvFile)
+        public IDataResult<List<string>> Add(Person entity, string imageFile, string cvFile)
         {
-            person.ProfilPath = imageFile;
-            person.CvPath = cvFile;
-            _personEFDAL.Add(person);
-            return new SuccessResult("Position added successfully");
+            entity.ProfilPath = imageFile;
+            entity.CvPath = cvFile;
+
+            var validationResult = _validator.Validate(entity);
+            if (!validationResult.IsValid)
+            {
+                return new ErrorDataResult<List<string>>(validationResult.Errors.Select(e => e.PropertyName).ToList(), validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+            }
+
+            _eFDAL.Add(entity);
+            return new SuccessDataResult<List<string>>(new List<string>(), "Person added successfully");
         }
 
         public IResult Delete(int id)
         {
-            var oldEntity = _personEFDAL.Get(x => x.ID == id && x.Deleted == 0);
+            var oldEntity = _eFDAL.Get(x => x.ID == id && x.Deleted == 0);
             oldEntity.Deleted = oldEntity.ID;
             Update(oldEntity, oldEntity.ProfilPath, oldEntity.CvPath);
-            return new SuccessResult("Position deleted successfully");
+            return new SuccessResult("Person deleted successfully");
         }
 
         public IDataResult<List<Person>> GetAll()
         {
-            return new SuccessDataResult<List<Person>>(_personEFDAL.GetPersonWithPosition(x => x.Deleted == 0).ToList());
+            return new SuccessDataResult<List<Person>>(_eFDAL.GetPersonWithPosition(x => x.Deleted == 0).ToList());
         }
 
         public IDataResult<Person> GetByID(int id)
         {
-            return new SuccessDataResult<Person>(_personEFDAL.Get(x => x.ID == id && x.Deleted == 0));
+            return new SuccessDataResult<Person>(_eFDAL.Get(x => x.ID == id && x.Deleted == 0));
         }
 
-        public IResult Update(Person person, string imageFile, string cvFile)
+        public IDataResult<List<string>> Update(Person entity, string imageFile, string cvFile)
         {
-            person.ProfilPath = imageFile;
-            person.CvPath = cvFile;
-            _personEFDAL.Update(person);
-            return new SuccessResult("Position updated successfully");
+            entity.ProfilPath = imageFile;
+            entity.CvPath = cvFile;
+
+            if (entity.Deleted == 0)
+            {
+                var validationResult = _validator.Validate(entity);
+                if (!validationResult.IsValid)
+                {
+                    return new ErrorDataResult<List<string>>(validationResult.Errors.Select(e => e.PropertyName).ToList(), validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+                }
+            }
+
+            _eFDAL.Update(entity);
+            return new SuccessDataResult<List<string>>(new List<string>(), "Person updated successfully");
         }
     }
 }

@@ -9,6 +9,10 @@ namespace Entities.Concrete.TableModels
 {
     public class Position:BaseEntity
     {
+        public Position()
+        {
+            People = new List<Person> { };
+        }
         public string Name { get; set; }
         public List<Person> People { get; set; }
     }

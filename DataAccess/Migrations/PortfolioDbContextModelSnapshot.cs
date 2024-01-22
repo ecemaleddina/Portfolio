@@ -31,7 +31,9 @@ namespace DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<int>("Deleted")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<int>("Point")
                         .HasColumnType("int");
@@ -41,7 +43,8 @@ namespace DataAccess.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("SkillId");
+                    b.HasIndex("SkillId", "Deleted")
+                        .HasDatabaseName("idx_AboutSkill_SkillId_Deleted");
 
                     b.ToTable("AboutSkills");
                 });
@@ -75,9 +78,6 @@ namespace DataAccess.Migrations
                     b.Property<DateTime>("EntryDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsContinue")
-                        .HasColumnType("bit");
-
                     b.Property<int>("PositionId")
                         .HasColumnType("int");
 
@@ -97,7 +97,9 @@ namespace DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<int>("Deleted")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -196,11 +198,14 @@ namespace DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Deleted")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("WorkCategoryID")
                         .HasColumnType("int");
@@ -208,6 +213,9 @@ namespace DataAccess.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("WorkCategoryID");
+
+                    b.HasIndex("CategoryId", "Deleted")
+                        .HasDatabaseName("idx_Portfolio_CategoryId_Deleted");
 
                     b.ToTable("Portfolios");
                 });

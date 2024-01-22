@@ -9,6 +9,10 @@ namespace Entities.Concrete.TableModels
 {
     public class Skill:BaseEntity
     {
+        public Skill()
+        {
+            AboutSkills = new List<AboutSkill> { };
+        }
         public string Name { get; set; }
         public List<AboutSkill> AboutSkills  { get; set; }
     }

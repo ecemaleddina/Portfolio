@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Concrete;
 using Entities.Concrete.TableModels;
+using FluentValidation;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,21 +11,21 @@ namespace Portfolio.Areas.Admin.Controllers
     [Area("Admin")]
     public class PersonController : Controller
     {
-        private readonly IPersonService _personManager;
+        private readonly IPersonService _manager;
         private readonly IPositionService _positionManager;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public PersonController(IPersonService personManager, IPositionService positionManager, IWebHostEnvironment webHostEnvironment)
+        public PersonController(IPersonService manager, IPositionService positionManager, IWebHostEnvironment webHostEnvironment)
         {
-            _personManager = personManager;
+            _manager = manager;
             _positionManager = positionManager;
             _webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
         {
-            var people = _personManager.GetAll().Data;
-            return View(people);
+            var datas = _manager.GetAll().Data;
+            return View(datas);
         }
 
         [HttpGet]
@@ -32,44 +33,47 @@ namespace Portfolio.Areas.Admin.Controllers
         {
             var positionsData = _positionManager.GetAll().Data;
 
-            if (positionsData != null)
+            if (positionsData.Count != 0)
             {
                 ViewData["Positions"] = new SelectList(positionsData, "ID", "Name");
             }
             else
             {
-                ViewData["Positions"] = new SelectList(new List<Position>(), "ID", "Name");
+                TempData["AlertMessage"] = "Firstly you must add some position";
+                return Redirect("Index");
             }
-            
+
             return View();
         }
 
         [HttpPost]
         public IActionResult Add(Person person)
         {
-            string fileName = Guid.NewGuid().ToString() + "_" + person.ImageFile.FileName;
-            if (person.ImageFile != null)
+            string fileName = Uploader(person, "Image", person.ImageFile);
+            string cvFile = Uploader(person, "CV", person.CvFile);
+
+            var result = _manager.Add(person, fileName, cvFile);
+            if (result.Success)
             {
-                string folder = "Image/";
-                folder += fileName;
-                string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, folder);
-                person.ImageFile.CopyTo(new FileStream(serverFolder, FileMode.Create));
+                return RedirectToAction("Index");
             }
-            string cvFile = Guid.NewGuid().ToString() + "_" + person.CvFile.FileName;
-            if (person.CvFile != null)
+            else
             {
-                string folder = "CV/";
-                folder += cvFile;
-                string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, folder);
-                person.CvFile.CopyTo(new FileStream(serverFolder, FileMode.Create));
+                var positionsData = _positionManager.GetAll().Data;
+
+                ViewData["Positions"] = new SelectList(positionsData, "ID", "Name");
+                foreach (var error in result.MessageList)
+                {
+                    ModelState.Remove(result.Data[result.MessageList.IndexOf(error)]);
+                    ModelState.AddModelError(result.Data[result.MessageList.IndexOf(error)], error);
+                }
+                return View(person);
             }
-            _personManager.Add(person, fileName, cvFile);
-            return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int id)
         {
-            _personManager.Delete(id);
+            _manager.Delete(id);
             return RedirectToAction("Index");
         }
 
@@ -83,33 +87,58 @@ namespace Portfolio.Areas.Admin.Controllers
             }
             else
             {
-                ViewData["Positions"] = new SelectList(new List<Position>(), "ID", "Name");
+                TempData["AlertMessage"] = "Firstly you must add some position";
+                return Redirect("Index");
             }
-            var person = _personManager.GetByID(id).Data;
+            var person = _manager.GetByID(id).Data;
             return View(person);
         }
 
         [HttpPost]
         public IActionResult Edit(Person person)
         {
-            string fileName = Guid.NewGuid().ToString() + "_" + person.ImageFile.FileName;
-            if (person.ImageFile != null)
+            var existingPerson = _manager.GetByID(person.ID).Data;
+
+            string fileName = person.ImageFile != null ? Uploader(person, "Image", person.ImageFile)
+                                                       : existingPerson.ProfilPath;
+            string cvFile = person.CvFile != null ? Uploader(person, "CV", person.CvFile)
+                                                  : existingPerson.CvPath;
+
+            var result = _manager.Update(person, fileName, cvFile);
+            if (result.Success)
             {
-                string folder = "Image/";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var positionsData = _positionManager.GetAll().Data;
+
+                ViewData["Positions"] = new SelectList(positionsData, "ID", "Name");
+                foreach (var error in result.MessageList)
+                {
+                    ModelState.Remove(result.Data[result.MessageList.IndexOf(error)]);
+                    ModelState.AddModelError(result.Data[result.MessageList.IndexOf(error)], error);
+                }
+                return View(person);
+            }
+
+        }
+
+        private string Uploader(Person person, string property, IFormFile document)
+        {
+            if (document != null)
+            {
+                string fileName = Guid.NewGuid().ToString() + "_" + document.FileName;
+                string folder = property + "/";
                 folder += fileName;
                 string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, folder);
                 person.ImageFile.CopyTo(new FileStream(serverFolder, FileMode.Create));
+                return fileName;
             }
-            string cvFile = Guid.NewGuid().ToString() + "_" + person.CvFile.FileName;
-            if (person.CvFile != null)
+            else
             {
-                string folder = "CV/";
-                folder += cvFile;
-                string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, folder);
-                person.CvFile.CopyTo(new FileStream(serverFolder, FileMode.Create));
+                return null;
             }
-            _personManager.Update(person, fileName, cvFile);
-            return RedirectToAction("Index");
         }
     }
 }

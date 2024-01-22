@@ -16,6 +16,7 @@ namespace DataAccess.Configuration
             builder.Property(x => x.Name).HasMaxLength(50);
             builder.Property(x=>x.Email).HasMaxLength(50);  
             builder.Property(x => x.Messages).HasMaxLength(2000);
+            builder.Property(x => x.Deleted).HasDefaultValue<int>(0);
         }
     }
 }

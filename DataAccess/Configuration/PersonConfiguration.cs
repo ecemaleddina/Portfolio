@@ -15,7 +15,7 @@ namespace DataAccess.Configuration
         public void Configure(EntityTypeBuilder<Person> builder)
         {
             builder.Property(x => x.FirstName).HasMaxLength(50);
-            builder.Property(x=>x.LastName).HasMaxLength(50);
+            builder.Property(x => x.LastName).HasMaxLength(50);
             builder.Property(x => x.WebSite).HasMaxLength(50);
             builder.Property(x => x.Description).HasMaxLength(2000);
             builder.Property(x=>x.Address).HasMaxLength(100);
