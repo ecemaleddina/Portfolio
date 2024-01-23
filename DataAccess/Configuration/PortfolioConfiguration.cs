@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Configuration
 {
-    public class PortfolioConfiguration : IEntityTypeConfiguration<Portfolio>
+    public class PortfolioConfiguration : IEntityTypeConfiguration<Portfoli>
     {
-        public void Configure(EntityTypeBuilder<Portfolio> builder)
+        public void Configure(EntityTypeBuilder<Portfoli> builder)
         {
             builder.Property(x => x.Title).HasMaxLength(50);
             builder.Property(x => x.Deleted).HasDefaultValue<int>(0);
-            builder.HasIndex(x => new { x.CategoryId, x.Deleted }).HasDatabaseName("idx_Portfolio_CategoryId_Deleted");
+            builder.HasIndex(x => new { x.WorkCategoryId, x.Deleted }).HasDatabaseName("idx_Portfolio_CategoryId_Deleted");
 
         }
     }

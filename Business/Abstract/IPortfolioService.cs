@@ -10,10 +10,10 @@ namespace Business.Abstract
 {
     public interface IPortfolioService
     {
-        IDataResult<List<string>> Add(Portfolio entity);
-        IDataResult<List<string>> Update(Portfolio entity);
+        IDataResult<List<string>> Add(Portfoli entity, string fileName);
+        IDataResult<List<string>> Update(Portfoli entity, string fileName);
         IResult Delete(int id);
-        IDataResult<Portfolio> GetByID(int id);
-        IDataResult<List<Portfolio>> GetAll();
+        IDataResult<Portfoli> GetByID(int id);
+        IDataResult<List<Portfoli>> GetAll();
     }
 }

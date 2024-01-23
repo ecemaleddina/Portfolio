@@ -186,16 +186,13 @@ namespace DataAccess.Migrations
                     b.ToTable("People");
                 });
 
-            modelBuilder.Entity("Entities.Concrete.TableModels.Portfolio", b =>
+            modelBuilder.Entity("Entities.Concrete.TableModels.Portfoli", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
 
                     b.Property<int>("Deleted")
                         .ValueGeneratedOnAdd()
@@ -207,14 +204,16 @@ namespace DataAccess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("WorkCategoryID")
+                    b.Property<int>("WorkCategoryId")
                         .HasColumnType("int");
+
+                    b.Property<string>("WorkImgPath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("WorkCategoryID");
-
-                    b.HasIndex("CategoryId", "Deleted")
+                    b.HasIndex("WorkCategoryId", "Deleted")
                         .HasDatabaseName("idx_Portfolio_CategoryId_Deleted");
 
                     b.ToTable("Portfolios");
@@ -560,7 +559,7 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("Entities.Concrete.TableModels.Experience", b =>
                 {
                     b.HasOne("Entities.Concrete.TableModels.Position", "Position")
-                        .WithMany()
+                        .WithMany("Experiences")
                         .HasForeignKey("PositionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -579,11 +578,11 @@ namespace DataAccess.Migrations
                     b.Navigation("Position");
                 });
 
-            modelBuilder.Entity("Entities.Concrete.TableModels.Portfolio", b =>
+            modelBuilder.Entity("Entities.Concrete.TableModels.Portfoli", b =>
                 {
                     b.HasOne("Entities.Concrete.TableModels.WorkCategory", "WorkCategory")
                         .WithMany("Portfolios")
-                        .HasForeignKey("WorkCategoryID")
+                        .HasForeignKey("WorkCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -643,6 +642,8 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Entities.Concrete.TableModels.Position", b =>
                 {
+                    b.Navigation("Experiences");
+
                     b.Navigation("People");
                 });
 

@@ -132,7 +132,7 @@ namespace Portfolio.Areas.Admin.Controllers
                 string folder = property + "/";
                 folder += fileName;
                 string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, folder);
-                person.ImageFile.CopyTo(new FileStream(serverFolder, FileMode.Create));
+                document.CopyTo(new FileStream(serverFolder, FileMode.Create));
                 return fileName;
             }
             else

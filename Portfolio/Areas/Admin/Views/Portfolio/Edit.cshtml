@@ -1,0 +1,67 @@
+﻿@model Portfoli
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<main>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Edit Portfolio</h3></div>
+                    <div class="card-body">
+                        <form method="post" action="/admin/Portfolio/Edit" enctype="multipart/form-data">
+                            <div class="form-group d-flex justify-content-between">
+                                <label for="id">ID</label>
+                                <input asp-for="ID" type="text" class="form-control w-50" id="id" readonly />
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="PortfolioTitle">New Title</label>
+                                        <div class="w-50">
+                                            <input asp-for="Title" type="text" class="form-control w-100" id="PortfolioTitle" placeholder="Enter New Title" />
+                                            <span asp-validation-for="Title" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="PortfolioWorkImage">New Work Image Path</label>
+                                        <div class="w-50">
+                                            <label asp-for="WorkImageFile" class="control-label"></label>
+                                            <div class="w-100">
+                                                <input asp-for="WorkImageFile" class="custom-file-input d-none" type="file" />
+                                                <span asp-validation-for="WorkImgPath" class="text-danger d-block"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="PortfolioCategory">New Position</label>
+                                        <div class="w-50">
+                                            <select asp-for="WorkCategoryId" class="w-100 form-select">
+                                                <option value="">Select position</option>
+                                                @foreach (var position in ViewData["WorkCategories"] as SelectList)
+                                                {
+                                                    <option value="@position.Value">@position.Text</option>
+                                                }
+                                            </select>
+                                            <span asp-validation-for="WorkCategoryId" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 mb-0 d-flex justify-content-between">
+                                <button type="submit" class="btn btn-success">Save</button>
+                                <button type="submit" asp-area="Admin" asp-controller="Portfolio" asp-action="Index" class="btn btn-danger">Cancel</button>
+                            </div>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+

@@ -1,64 +1,135 @@
-﻿<!DOCTYPE html>
+﻿@model HomeViewModel
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Portfolio.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/BasePage/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/BasePage/css/bootstrap-menu.css" />
+    <link rel="stylesheet" href="~/BasePage/css/animate.min.css" />
+    <link rel="stylesheet" herf="~/BasePage/css/themify-icons.css" />
+    <link rel="stylesheet" href="~/BasePage/css/elegant-line-icons.css" />
+    <link rel="stylesheet" href="~/BasePage/css/venobox/venobox.css" />
+    <link rel="stylesheet" href="~/BasePage/css/owl.carousel.css" />
+    <link rel="stylesheet" href="~/BasePage/css/owl.theme.default.min.css" />
+    <link href="~/css/main.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/BasePage/css/main.css" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Portfolio</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-action="index" asp-controller="position" asp-area="admin">
-                                Position
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-action="index" asp-controller="person" asp-area="admin">
-                                Person
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-action="index" asp-controller="skill" asp-area="admin">
-                                Skill
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+    <div class="site-preloader-wrap">
+        <div class="spinner"></div>
+    </div><!-- /.site-preloader-wrap -->
+
+    <div class="dl-fixed-sidebar dl-sidebar-left">
+        <div class="dl-header-container">
+            <div class="logo">
+                <h1><a href="index.html"><img src="img/logo-light.png" alt="logo"></a></h1>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+            <div class="dl-burger-menu">
+                <div class="dl-line-menu dl-line-half dl-first-line"></div>
+                <div class="dl-line-menu"></div>
+                <div class="dl-line-menu dl-line-half dl-last-line"></div>
+            </div>
+            <nav class="dl-menu-fixed">
+                <ul>
+                    <li><a href="#home" data-scroll-nav="0">Home</a></li>
+                    <li><a href="#services" data-scroll-nav="1">About Me</a></li>
+                    <li><a href="#about" data-scroll-nav="2">Resume</a></li>
+                    <li><a href="#services" data-scroll-nav="3">Services</a></li>
+                    <li><a href="#portfolios" data-scroll-nav="4">Portfolios</a></li>
+                    <li><a href="#reviews" data-scroll-nav="5">Reviews</a></li>
+                    <li><a href="#contact" data-scroll-nav="6">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - Portfolio - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+
+    <div class="dl-side-content">
+        <div class="content-lines-wrapper">
+            <div class="content-lines-inner">
+                <div class="content-lines"></div>
+            </div>
+        </div><!-- /.content-lines-wrapper -->
+
+        <header class="hero-section d-flex align-items-center bd-bottom" data-scroll-index="0">
+            <div class="container">
+                <div class="hero-content text-center">
+                    <h4>Hello! I'M</h4>
+                    <h1>@Model.Person.FullName</h1>
+                    <h2>
+                        I'm
+                        <span class="typed">
+
+                            @foreach (var item in Model.Positions)
+                            {
+                                @item.Name
+                            }
+                        </span>
+                    </h2>
+                </div>
+                <ul class="hero-social">
+                    <li><a href="#"><i class="ti-facebook"></i></a></li>
+                    <li><a href="#"><i class="ti-twitter"></i></a></li>
+                    <li><a href="#"><i class="ti-instagram"></i></a></li>
+                    <li><a href="#"><i class="ti-linkedin"></i></a></li>
+                    <li><a href="#"><i class="ti-youtube"></i></a></li>
+                </ul>
+            </div>
+        </header><!-- /.hero-section -->
+        @RenderBody()
+        <footer class="footer-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p>© <script>document.write(new Date().getFullYear())</script> Naven by <a href="https://themeforest.net/user/dynamiclayers" target="_blank">DynamicLayers</a></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="footer-social text-right">
+                            <a href="#"><i class="ti-facebook"></i></a>
+                            <a href="#"><i class="ti-twitter"></i></a>
+                            <a href="#"><i class="ti-instagram"></i></a>
+                            <a href="#"><i class="ti-linkedin"></i></a>
+                            <a href="#"><i class="ti-youtube"></i></a>
+                        </div><!-- /.footer-social -->
+                    </div>
+                </div>
+            </div>
+        </footer><!-- /.footer-section -->
+
+    </div>
+
+
+
+
+    <!-- /.dl-fixed-sidebar -->
+
+
+
+
+    <script src="~/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="~/js/vendor/popper.min.js"></script>
+    <script src="~/js/vendor/bootstrap.min.js"></script>
+    <script src="~/js/vendor/scrollit.js"></script>
+    <script src="~/js/vendor/jquery.waypoints.min.js"></script>
+    <script src="~/js/vendor/imagesloaded.pkgd.min.js"></script>
+    <script src="~/js/vendor/venobox.min.js"></script>
+    <script src="~/js/vendor/jquery.isotope.v3.0.2.js"></script>
+    <script src="~/js/vendor/owl.carousel.min.js"></script>
+    <script src="~/js/vendor/bootstrap-menu.js"></script>
+    <script src="~/js/vendor/wow.min.js"></script>
+    <script src="~/js/contact.js"></script>
+    <script src="~/js/main.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/vendor/typed.min.js"></script>
+    <script src="~/js/tabmenu.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

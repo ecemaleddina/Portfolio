@@ -26,11 +26,11 @@ namespace Portfolio.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            var skillsData = _positionManager.GetAll().Data;
+            var positionsdata = _positionManager.GetAll().Data;
 
-            if (skillsData.Count != 0)
+            if (positionsdata.Count != 0)
             {
-                ViewData["Positions"] = new SelectList(skillsData, "ID", "Name");
+                ViewData["Positions"] = new SelectList(positionsdata, "ID", "Name");
             }
             else
             {
@@ -50,9 +50,9 @@ namespace Portfolio.Areas.Admin.Controllers
             }
             else
             {
-                var skillsData = _positionManager.GetAll().Data;
+                var positionsdata = _positionManager.GetAll().Data;
 
-                ViewData["Positions"] = new SelectList(skillsData, "ID", "Name");
+                ViewData["Positions"] = new SelectList(positionsdata, "ID", "Name");
                 foreach (var error in result.MessageList)
                 {
                     ModelState.Remove(result.Data[result.MessageList.IndexOf(error)]);
@@ -70,11 +70,11 @@ namespace Portfolio.Areas.Admin.Controllers
 
         public IActionResult Edit(int id)
         {
-            var skillsData = _positionManager.GetAll().Data;
+            var positionsdata = _positionManager.GetAll().Data;
 
-            if (skillsData.Count != 0)
+            if (positionsdata.Count != 0)
             {
-                ViewData["Positions"] = new SelectList(skillsData, "ID", "Name");
+                ViewData["Positions"] = new SelectList(positionsdata, "ID", "Name");
             }
             else
             {
@@ -96,9 +96,9 @@ namespace Portfolio.Areas.Admin.Controllers
             }
             else
             {
-                var skillsData = _positionManager.GetAll().Data;
+                var positionsdata = _positionManager.GetAll().Data;
 
-                ViewData["Positions"] = new SelectList(skillsData, "ID", "Name");
+                ViewData["Positions"] = new SelectList(positionsdata, "ID", "Name");
                 foreach (var error in result.MessageList)
                 {
                     ModelState.Remove(result.Data[result.MessageList.IndexOf(error)]);

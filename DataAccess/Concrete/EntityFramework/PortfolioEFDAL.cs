@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class PortfolioEFDAL : RepositoryBase<Portfolio, PortfolioDbContext>, IPortfolioDAL
+    public class PortfolioEFDAL : RepositoryBase<Portfoli, PortfolioDbContext>, IPortfolioDAL
     {
         private readonly PortfolioDbContext _context;
 
@@ -20,14 +20,14 @@ namespace DataAccess.Concrete.EntityFramework
             _context = context;
         }
 
-        public List<Portfolio> GetPortfolioWithWorkCategory(Expression<Func<Portfolio, bool>> predicate = null)
+        public List<Portfoli> GetPortfolioWithWorkCategory(Expression<Func<Portfoli, bool>> predicate = null)
         {
 
             return predicate is null
                   ?
-                   _context.Set<Portfolio>().Include(x => x.WorkCategory).ToList()
+                   _context.Set<Portfoli>().Include(x => x.WorkCategory).ToList()
                   :
-                  _context.Set<Portfolio>().Include(x => x.WorkCategory).Where(predicate).ToList();
+                  _context.Set<Portfoli>().Include(x => x.WorkCategory).Where(predicate).ToList();
         }
     }
 }

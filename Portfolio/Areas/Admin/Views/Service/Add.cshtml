@@ -1,0 +1,59 @@
+﻿@model Service
+@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<main>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Add Service</h3></div>
+                    <div class="card-body">
+                        <form method="post" action="/admin/Service/Add">
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="ServiceTitle">Title</label>
+                                        <div class="w-50">
+                                            <input asp-for="Title" type="text" class="form-control w-100" id="ServiceTitle" placeholder="Enter Title" />
+                                            <span asp-validation-for="Title" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="ServiceDescription">Description</label>
+                                        <div class="w-50">
+                                            <input asp-for="Description" type="text" class="form-control w-100" id="ServiceDescription" placeholder="Enter Description" />
+                                            <span asp-validation-for="Description" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="ServiceIconName">Icon Name</label>
+                                        <div class="w-50">
+                                            <input asp-for="IconName" type="text" class="form-control w-100" id="ServiceIconName" placeholder="Enter Icon Name" />
+                                            <span asp-validation-for="IconName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="ServiceActive">Active or Not</label>
+                                        <div class="w-50">
+                                            <input asp-for="ShowOnPage" type="checkbox" class="form-control w-100" id="ServiceActive"/>
+                                            <span asp-validation-for="ShowOnPage" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 mb-0 d-flex justify-content-between">
+                                <button type="submit" class="btn btn-success">Save</button>
+                                <button type="submit" asp-area="Admin" asp-controller="Service" asp-action="Index" class="btn btn-danger">Cancel</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+

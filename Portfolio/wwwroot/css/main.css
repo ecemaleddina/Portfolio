@@ -437,7 +437,8 @@ h6 {
 }
 .skill-items .skill-item .progress,
 .skill-items .skill-item .progress .progress-bar {
-    border-radius: 2px
+    border-radius: 2px;
+    overflow: visible;
 }
 .skill-items .skill-item .progress .progress-bar {
     line-height: 5px;
@@ -804,7 +805,6 @@ footer p a {
 }
 
 
-
 /* ======= Media Query  ======= */
 @media screen and (min-width: 1200px) {
     .container {
@@ -953,4 +953,3 @@ footer p a {
         animation-delay: 1s;
     }
 }
-

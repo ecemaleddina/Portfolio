@@ -50,7 +50,7 @@ namespace Business.Concrete
 
         public IDataResult<WorkCategory> GetByID(int id)
         {
-            return new SuccessDataResult<WorkCategory>(_eFDAL.Get(x => x.ID == id && x.Deleted == 0));
+            return new SuccessDataResult<WorkCategory>(_eFDAL.GetWorkCategoryWithPortfolios(x => x.ID == id && x.Deleted == 0));
         }
 
         public IDataResult<List<string>> Update(WorkCategory entity)

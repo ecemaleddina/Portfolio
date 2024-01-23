@@ -11,9 +11,9 @@ namespace Entities.Concrete.TableModels
     {
         public WorkCategory()
         {
-            Portfolios = new List<Portfolio> { };
+            Portfolios = new List<Portfoli> { };
         }
         public string Name { get; set; }
-        public List<Portfolio> Portfolios { get; set; }
+        public List<Portfoli> Portfolios { get; set; }
     }
 }

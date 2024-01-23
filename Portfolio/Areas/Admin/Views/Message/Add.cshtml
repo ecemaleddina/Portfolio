@@ -1,0 +1,55 @@
+﻿@model Message
+
+@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<main>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Add Message</h3></div>
+                    <div class="card-body">
+                        <form method="post" action="/admin/Message/Add">
+                            @Html.AntiForgeryToken()
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="MessageName">Name</label>
+                                        <div class="w-50">
+                                            <input asp-for="Name" type="text" class="form-control w-100" id="MessageName" placeholder="Enter Name" />
+                                            <span asp-validation-for="Name" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="MessageEmail">Email</label>
+                                        <div class="w-50">
+                                            <input asp-for="Email" type="email" class="form-control w-100" id="MessageEmail" placeholder="Enter Email" />
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="MessageMessage">Message</label>
+                                        <div class="w-50">
+                                            <input asp-for="Messages" type="text" class="form-control w-100" id="MessageMessage" placeholder="Enter Message" />
+                                            <span asp-validation-for="Messages" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 mb-0 d-flex justify-content-between">
+                                <button type="submit" class="btn btn-success">Save</button>
+                                <button type="submit" asp-area="Admin" asp-controller="Message" asp-action="Index" class="btn btn-danger">Cancel</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+

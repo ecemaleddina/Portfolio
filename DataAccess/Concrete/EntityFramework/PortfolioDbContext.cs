@@ -27,7 +27,7 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Position> Positions { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Experience> Experiences { get; set; }
-        public DbSet<Portfolio> Portfolios { get; set; }
+        public DbSet<Portfoli> Portfolios { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<AboutSkill> AboutSkills { get; set; }
         public DbSet<WorkCategory> WorkCategories { get; set; }

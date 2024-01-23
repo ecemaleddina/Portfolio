@@ -14,16 +14,17 @@ namespace Business.Concrete
     public class PortfolioManager: IPortfolioService
     {
         private readonly IPortfolioDAL _eFDAL;
-        private readonly IValidator<Portfolio> _validator;
+        private readonly IValidator<Portfoli> _validator;
 
-        public PortfolioManager(IPortfolioDAL eFDAL, IValidator<Portfolio> validator)
+        public PortfolioManager(IPortfolioDAL eFDAL, IValidator<Portfoli> validator)
         {
             _eFDAL = eFDAL;
             _validator = validator;
         }
 
-        public IDataResult<List<string>> Add(Portfolio entity)
+        public IDataResult<List<string>> Add(Portfoli entity, string fileName)
         {
+            entity.WorkImgPath = fileName;
             var validationResult = _validator.Validate(entity);
             if (!validationResult.IsValid)
             {
@@ -38,22 +39,23 @@ namespace Business.Concrete
         {
             var oldEntity = _eFDAL.Get(x => x.ID == id && x.Deleted == 0);
             oldEntity.Deleted = oldEntity.ID;
-            Update(oldEntity);
+            Update(oldEntity, oldEntity.WorkImgPath);
             return new SuccessResult("Portfolio deleted successfully");
         }
 
-        public IDataResult<List<Portfolio>> GetAll()
+        public IDataResult<List<Portfoli>> GetAll()
         {
-            return new SuccessDataResult<List<Portfolio>>(_eFDAL.GetPortfolioWithWorkCategory(x => x.Deleted == 0).ToList());
+            return new SuccessDataResult<List<Portfoli>>(_eFDAL.GetPortfolioWithWorkCategory(x => x.Deleted == 0).ToList());
         }
 
-        public IDataResult<Portfolio> GetByID(int id)
+        public IDataResult<Portfoli> GetByID(int id)
         {
-            return new SuccessDataResult<Portfolio>(_eFDAL.Get(x => x.ID == id && x.Deleted == 0));
+            return new SuccessDataResult<Portfoli>(_eFDAL.Get(x => x.ID == id && x.Deleted == 0));
         }
 
-        public IDataResult<List<string>> Update(Portfolio entity)
+        public IDataResult<List<string>> Update(Portfoli entity, string fileName)
         {
+            entity.WorkImgPath = fileName;
             if (entity.Deleted == 0)
             {
                 var validationResult = _validator.Validate(entity);

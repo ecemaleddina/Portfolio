@@ -1,0 +1,64 @@
+﻿@model Service
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<main>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Edit Service</h3></div>
+                    <div class="card-body">
+                        <form method="post" action="/admin/Service/Edit">
+                            <div class="form-group d-flex justify-content-between">
+                                <label for="id">ID</label>
+                                <input asp-for="ID" type="text" class="form-control w-50" id="id" readonly />
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="ServiceTitle">New Title</label>
+                                        <div class="w-50">
+                                            <input asp-for="Title" type="text" class="form-control w-100" id="ServiceTitle" placeholder="Enter New Title" />
+                                            <span asp-validation-for="Title" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="ServiceDescription">New Description</label>
+                                        <div class="w-50">
+                                            <input asp-for="Description" type="text" class="form-control w-100" id="ServiceDescription" placeholder="Enter New Description" />
+                                            <span asp-validation-for="Description" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="ServiceIconName">Icon New Name</label>
+                                        <div class="w-50">
+                                            <input asp-for="IconName" type="text" class="form-control w-100" id="ServiceIconName" placeholder="Enter New Icon Name" />
+                                            <span asp-validation-for="IconName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3 mb-md-3 d-flex align-items-center justify-content-between">
+                                        <label for="ServiceActive">Active or Not</label>
+                                        <div class="w-50">
+                                            <input asp-for="ShowOnPage" type="checkbox" class="form-control w-100" id="ServiceActive" />
+                                            <span asp-validation-for="ShowOnPage" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 mb-0 d-flex justify-content-between">
+                                <button type="submit" class="btn btn-success">Save</button>
+                                <button type="submit" asp-area="Admin" asp-controller="Service" asp-action="Index" class="btn btn-danger">Cancel</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+

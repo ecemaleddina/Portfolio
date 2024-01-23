@@ -50,7 +50,7 @@ namespace Business.Concrete
 
         public IDataResult<Skill> GetByID(int id)
         {
-            return new SuccessDataResult<Skill>(_eFDAL.Get(x => x.ID == id && x.Deleted == 0));
+            return new SuccessDataResult<Skill>(_eFDAL.GetSkillWithDetails(x => x.ID == id && x.Deleted == 0));
         }
 
         public IDataResult<List<string>> Update(Skill entity)

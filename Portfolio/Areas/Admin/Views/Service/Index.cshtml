@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Service>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    th, td {
+        text-align: center;
+        vertical-align: middle !important;
+    }
+</style>
+
+
+
+<div class="container p-0">
+    <div class="mt-1">
+        <a href="~/admin/Service/add" class="btn btn-primary">Add</a>
+    </div>
+    <div class="mt-3 w-100">
+        <table class="table table-bordered table-hover w-100 centering">
+            <thead class="table-info">
+                <tr>
+                    <th>№</th>
+                    <th><p class="p-0 m-0">Title</p></th>
+                    <th><p class="p-0 m-0">Description</p></th>
+                    <th><p class="p-0 m-0">Icon</p></th>
+                    <th><p class="p-0 m-0">Active or Not</p></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var (index, item) in Model.Select((value, i) => (i + 1, value)))
+                {
+                    <tr>
+                        <td>@index</td>
+                        <td>@item.Title</td>
+                        <td>@item.Description</td>
+                        <td><i class="@item.IconName"></i></td>
+                        <td>@item.ShowOnPage</td>
+                        <td>@Html.ActionLink("Delete", "Delete", "Service", new {id = item.ID}, new{ @class="btn btn-danger"})</td>
+                        <td>@Html.ActionLink("Edit", "Edit", "Service", new {id = item.ID}, new{ @class="btn btn-success"})</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+

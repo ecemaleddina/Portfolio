@@ -53,6 +53,11 @@ namespace Portfolio.Areas.Admin.Controllers
 
         public IActionResult Delete(int id)
         {
+            if (_manager.GetByID(id).Data.Experiences.Count != 0 || _manager.GetByID(id).Data.People.Count != 0)
+            {
+                TempData["AlertMessage"] = "You have experiences or people with this position. Delete them firstly!";
+                return RedirectToAction("Index");
+            }
             _manager.Delete(id);
             return RedirectToAction("Index");
         }

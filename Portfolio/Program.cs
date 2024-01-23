@@ -5,6 +5,7 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete.TableModels;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,12 +26,21 @@ builder.Services.AddScoped<IWorkCategoryDAL, WorkCategoryEFDAL>();
 builder.Services.AddScoped<IWorkCategoryService, WorkCategoryManager>();
 builder.Services.AddScoped<IExperienceDAL, ExperienceEFDAL>();
 builder.Services.AddScoped<IExperienceService, ExperienceManager>();
+builder.Services.AddScoped<IMessageDAL, MessageEFDAL>();
+builder.Services.AddScoped<IMessageService, MessageManager>();
+builder.Services.AddScoped<IServiceDAL, ServiceEFDAL>();
+builder.Services.AddScoped<IServiceService, ServiceManager>();
+builder.Services.AddScoped<IPortfolioDAL, PortfolioEFDAL>();
+builder.Services.AddScoped<IPortfolioService, PortfolioManager>();
 builder.Services.AddScoped<IValidator<Position>, PositionValidator>();
 builder.Services.AddScoped<IValidator<Person>, PersonValidator>();
 builder.Services.AddScoped<IValidator<Skill>, SkillValidator>();
 builder.Services.AddScoped<IValidator<AboutSkill>, AboutSkillValidator>();
 builder.Services.AddScoped<IValidator<WorkCategory>, WorkCategoryValidator>();
 builder.Services.AddScoped<IValidator<Experience>, ExperienceValidator>();
+builder.Services.AddScoped<IValidator<Message>, MessageValidator>();
+builder.Services.AddScoped<IValidator<Service>, ServiceValidator>();
+builder.Services.AddScoped<IValidator<Portfoli>, PortfolioValidator>();
 
 var app = builder.Build();
 

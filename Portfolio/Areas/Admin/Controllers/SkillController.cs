@@ -49,6 +49,11 @@ namespace Portfolio.Areas.Admin.Controllers
 
         public IActionResult Delete(int id)
         {
+            if (_manager.GetByID(id).Data.AboutSkills.Count != 0)
+            {
+                TempData["AlertMessage"] = "You have skill detail(s) with this skill. Delete them firstly!";
+                return RedirectToAction("Index");
+            }
             _manager.Delete(id);
             return RedirectToAction("Index");
         }

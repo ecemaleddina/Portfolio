@@ -53,7 +53,7 @@ namespace Business.Concrete
 
         public IDataResult<Position> GetByID(int id)
         {
-            return new SuccessDataResult<Position>(_eFDAL.Get(x => x.ID == id && x.Deleted == 0));
+            return new SuccessDataResult<Position>(_eFDAL.GetPositionWithExpsandPeople(x => x.ID == id && x.Deleted == 0));
         }
 
         public IDataResult<List<string>> Update(Position entity)

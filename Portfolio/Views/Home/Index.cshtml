@@ -1,8 +1,186 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model HomeViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section id="about" class="about-section section-padding bd-bottom" data-scroll-index="1">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-7 sm-padding wow fadeInLeft" data-wow-delay="200ms" data-wow-duration="1000ms">
+                <div class="about-content">
+                    <h2>Let Me Introduce Myself.</h2>
+                    <p>I love to work in User Experience & User Interface designing. Because I love to solve the design problem and find easy and better solutions to solve it. I always try my best to make good user interface with the best user experience.</p>
+                    <ul class="profile-info">
+                        <li><span>Full Name</span> @Model.Person.FullName</li>
+                        <li><span>Birth Date</span> @Model.Person.BirthDate.ToString("dd/MM/yyyy")</li>
+                        <li><span>Address</span> @Model.Person.Address</li>
+                        <li><span>Email</span> @Model.Person.Email</li>
+                        <li><span>Website</span><a href="https://mirferidagalarov.github.io/Ateiler/" target="_blank">@Model.Person.WebSite</a></li>
+                    </ul>
+                    <a href="#" download="@Model.Person.CvPath" class="default-btn">Download CV <i class="ti-download"></i></a>
+                </div>
+            </div>
+            <div class="col-md-5 sm-padding wow fadeInRight" data-wow-delay="200ms" data-wow-duration="1000ms">
+                <div class="about-bg">
+                    <img src="~/Image/@Model.Person.ProfilPath" alt="img">
+                    <div class="dots"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!-- /.about-section -->
+
+<section id="resume" class="resume-section section-padding bd-bottom" data-scroll-index="2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 sm-padding wow fadeInLeft" data-wow-delay="200ms" data-wow-duration="1000ms">
+                <div class="section-heading mb-40">
+                    <h2>Working Experience</h2>
+                </div>
+                @foreach (var item in Model.Experiences)
+                {
+                    <ul class="exp-list">
+                        <li>
+                            <div class="exp-date">
+                                <i class="fa-solid fa-bookmark"></i>
+                                @{
+                                    string data = item.IsContinue ? $"{item.EntryDate.ToString("dd/MM/yyyy")} -Till Now" : $"{item.EntryDate.ToString("dd/MM/yyyy")} -{item.EndDate?.ToString("dd/MM/yyyy")}";
+                                }
+                                <span>@data</span>
+                            </div>
+                            <div class="exp-content">
+                                <h4>@item.CompanyName <span>@item.Position.Name</span></h4>
+                                <p>@item.Description</p>
+                            </div>
+                        </li>
+                    </ul>
+                }
+            </div>
+            <div class="col-md-6 sm-padding wow fadeInRight" data-wow-delay="200ms" data-wow-duration="1000ms">
+                <div class="skill-wrap">
+                    <div class="section-heading mb-40">
+                        <h2>Professional Skills</h2>
+                    </div>
+                    <ul class="skill-items">
+                        @foreach (var item in Model.AboutSkills)
+                        {
+                            <li class="skill-item">
+                                <h5>@item.Skill.Name</h5>
+                                <div class="progress">
+                                    @{
+                                        int point = item.Point;
+                                    }
+                                    <div class="progress-bar wow slideInLeft" data-wow-delay="0ms" data-wow-duration="2000ms" role="progressbar" style="width: @point%;">
+                                        <span>@point%</span>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!-- /.resume-section -->
+<section id="services" class="services-section section-padding bd-bottom" data-scroll-index="3">
+    <div class="container">
+        <div class="section-heading mb-40 text-center wow fadeInUp" data-wow-delay="200ms" data-wow-duration="1000ms">
+            <h2>Outstanding Services</h2>
+        </div>
+        <div class="row justify-content-center">
+            @foreach (var item in Model.Services)
+            {
+                if (item.ShowOnPage)
+                {
+                    <div class="col-md-4 col-sm-6 sm-padding wow fadeInUp" data-wow-delay="200ms" data-wow-duration="1000ms">
+                        <div class="services-item">
+                            <i class="@item.IconName"></i>
+                            <h3>@item.Title</h3>
+                            <p>@item.Description </p>
+                            <div class="dots"></div>
+                        </div>
+                    </div>
+                }
+
+            }
+        </div>
+    </div>
+</section><!-- /.services-section -->
+
+<section id="portfolios" class="portfolio-section section-padding bd-bottom" data-scroll-index="4">
+    <div class="container">
+        <div class="section-heading text-center mb-40 wow fadeInUp" data-wow-delay="200ms" data-wow-duration="1000ms">
+            <h2>Work Portfolios</h2>
+        </div>
+        <div class="portfolio-wrapper">
+            <ul class="portfolio-filter text-center mb-30">
+                <li class="active" data-filter="*">All</li>
+                @foreach(var item in Model.WorkCategories){
+                    <li data-filter=".@item.Name">@item.Name</li>
+                }
+            </ul><!-- Portfolio Filter -->
+            <div class="row portfolio-items justify-content-center">
+                @foreach (var item in Model.Portfolios)
+                {
+                    <div class="col-md-4 col-sm-6 padding-10 single-item @item.WorkCategory.Name.Replace(" ", "")">
+                        <div class="portfolio-box">
+                            <img src="~/WorkImage/@item.WorkImgPath" alt="img">
+                            <div class="portfolio-content">
+                                <h3><a class="img-popup" href="img/port-1.jpg">@item.Title<span>@item.WorkCategory.Name</span></a></h3>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section><!-- /.portfolio-section -->
+
+<section class="cta-section section-padding bd-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 xs-padding">
+                <div class="cta-content">
+                    <h3>Need a Consultant for Your Business?</h3>
+                </div>
+            </div>
+            <div class="col-md-6 text-right">
+                <a href="#" class="default-btn">Hire Me Now!</a>
+            </div>
+        </div>
+    </div>
+</section><!-- /.cta-section -->
+
+<section id="contact" class="contact-section section-padding" data-scroll-index="6">
+    <div class="container">
+        <div class="section-heading mb-40 text-center wow fadeInUp" data-wow-delay="200ms" data-wow-duration="1000ms">
+            <h2>Get In Touch</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <form method="post" action="/admin/Message/Add" class="row contact-form text-center">
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group col-lg-6">
+                        <input type="text" class="form-control" id="name" name="Name" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <input type="email" class="form-control" id="email" name="Email" placeholder="Enter email" required>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <textarea class="form-control message" id="message" name="Messages" placeholder="Message" required></textarea>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <button id="submit" class="default-btn" type="submit">Send Message</button>
+                    </div>
+                    <div id="form-messages" class="form-group col-lg-12">
+                        <div class="alert" role="alert"></div>
+                    </div>
+                    <input type="hidden" name="source" value="Home" />
+                </form>
+            </div>
+        </div>
+    </div>
+</section><!-- /.contact-section -->

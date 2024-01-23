@@ -47,6 +47,11 @@ namespace Portfolio.Areas.Admin.Controllers
 
         public IActionResult Delete(int id)
         {
+            if(_manager.GetByID(id).Data.Portfolios.Count != 0)
+            {
+                TempData["AlertMessage"] = "You have portfolio(s) with this category. Delete them firstly!";
+                return RedirectToAction("Index");
+            }
             _manager.Delete(id);
             return RedirectToAction("Index");
         }

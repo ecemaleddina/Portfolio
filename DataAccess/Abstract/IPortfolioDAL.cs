@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface IPortfolioDAL: IRepository<Portfolio>
+    public interface IPortfolioDAL: IRepository<Portfoli>
     {
-        List<Portfolio> GetPortfolioWithWorkCategory(Expression<Func<Portfolio, bool>> predicate = null);
+        List<Portfoli> GetPortfolioWithWorkCategory(Expression<Func<Portfoli, bool>> predicate = null);
     }
 }

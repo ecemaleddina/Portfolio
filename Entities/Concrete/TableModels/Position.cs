@@ -12,8 +12,10 @@ namespace Entities.Concrete.TableModels
         public Position()
         {
             People = new List<Person> { };
+            Experiences = new List<Experience> { };
         }
         public string Name { get; set; }
         public List<Person> People { get; set; }
+        public List<Experience> Experiences { get; set; }
     }
 }
