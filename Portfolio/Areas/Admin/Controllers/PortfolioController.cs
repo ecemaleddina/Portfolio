@@ -1,12 +1,14 @@
 ﻿using Business.Abstract;
 using Business.Concrete;
 using Entities.Concrete.TableModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Portfolio.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class PortfolioController : Controller
     {
         private readonly IPortfolioService _manager;

@@ -4,6 +4,7 @@ using Core.Helpers;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete.TableModels;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -11,6 +12,7 @@ using System;
 namespace Portfolio.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class PositionController : Controller
     {
         private readonly IPositionService _manager;

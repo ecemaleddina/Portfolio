@@ -2,11 +2,13 @@
 using Business.Concrete;
 using Entities.Concrete.TableModels;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Portfolio.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class SkillController : Controller
     {
         private readonly ISkillService _manager;

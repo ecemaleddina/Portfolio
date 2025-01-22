@@ -5,8 +5,10 @@ using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete.TableModels;
 using FluentValidation;
-using FluentValidation.AspNetCore;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Portfolio.Classes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +44,32 @@ builder.Services.AddScoped<IValidator<Message>, MessageValidator>();
 builder.Services.AddScoped<IValidator<Service>, ServiceValidator>();
 builder.Services.AddScoped<IValidator<Portfoli>, PortfolioValidator>();
 
+//builder.Services.AddAuthorization(options =>
+//{
+//    options.AddPolicy("RequireAuthenticatedUser", policy =>
+//        policy.RequireAuthenticatedUser());
+//});
+
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = new PathString("/Admin/Auth/Login");
+    options.Cookie = new CookieBuilder
+    {
+        Name = "PortfolioIdentityCookie",
+        HttpOnly = false,
+        SameSite = SameSiteMode.Lax,
+        SecurePolicy = CookieSecurePolicy.Always
+    };
+    options.SlidingExpiration = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(2);
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -57,18 +85,33 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 
 
-app.UseEndpoints(endpoints => {
+
+app.UseEndpoints(endpoints =>
+{
     endpoints.MapControllerRoute(
     name: "areas",
-    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area:exists}/{controller=Default}/{action=Index}/{id?}");
 
     endpoints.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=home}/{action=Index}/{id?}");
 });
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var userManager = services.GetRequiredService<UserManager<User>>();
+    SeedData.GenerateFirstUser(userManager).GetAwaiter().GetResult();
+
+}
+
+
+
 app.Run();
+
